@@ -1,7 +1,8 @@
 import csv
 import os
 
-
+with open('data-clean.csv', mode='w', newline='', encoding='utf-8-sig') as file:
+  writer = csv.writer(file)
   writer.writerow(['board', 'count', 'push', 'category','title', 'author', 'month', 'day', 'text_link'])
 
   folder = './data/'
