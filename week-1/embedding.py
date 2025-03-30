@@ -21,12 +21,12 @@ def read_corpus(csv_file, tokens_only=False):
               # For training data, add tags
               yield gensim.models.doc2vec.TaggedDocument(tokens, [text[i][0]])
 
-train_corpus = list(read_corpus("data-clean-words.csv"))
+train_corpus = list(read_corpus("data-clean-words-sample.csv"))
 # test_corpus = list(load_corpus_from_csv("test_tokens.csv", tokens_only=True))
-model = gensim.models.doc2vec.Doc2Vec(vector_size=50, min_count=2, epochs=100)
+model = gensim.models.doc2vec.Doc2Vec(vector_size=50, min_count=2, epochs=10)
 model.build_vocab(train_corpus)
 model.train(train_corpus, total_examples=model.corpus_count, epochs=model.epochs)
-model.save("doc2vec_model.bin")
+model.save("doc2vec_model_sample.bin")
 
 ranks = []
 second_ranks = []
@@ -40,7 +40,7 @@ for doc_id in range(len(train_corpus)):
     
 counter = collections.Counter(ranks)
 print(counter)
-print("vector_size=50, min_count=2, epochs=100")
+print(f"vector_size=50, min_count=2, epochs={model.epochs}")
 print(f"Self-Similarity: {counter[0] / len(ranks) * 100:.2f}%")
 print(f"Second Self-Similarity: {(counter[0]+counter[1]) / len(ranks) * 100:.2f}%")
 

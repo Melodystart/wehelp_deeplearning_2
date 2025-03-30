@@ -2,5 +2,5 @@ data/
 data-clean.csv
 data-clean-words.csv
 data-clean-sample.csv
-data-clean-words-sample.csv
 doc2vec_model.bin
+doc2vec_model_sample.bin
