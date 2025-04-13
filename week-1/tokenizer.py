@@ -10,15 +10,15 @@ filter_pos = ["Caa", "Cab", "Cba", "Cbb", "P", "DE", "FW", "COLONCATEGORY","COMM
 
 start = 1
 
-if os.path.exists("data-clean-words.csv"):
-   with open("data-clean-words.csv", mode='r', newline='', encoding='utf-8-sig') as file:
+if os.path.exists("data-clean-words-sample.csv"):
+   with open("data-clean-words-sample.csv", mode='r', newline='', encoding='utf-8-sig') as file:
       reader = csv.reader(file)
       token_text = list(reader)
       start = len(token_text)
 
-with open('data-clean-words.csv', mode='a', newline='', encoding='utf-8-sig') as write_file:
+with open('data-clean-words-sample.csv', mode='a', newline='', encoding='utf-8-sig') as write_file:
    writer = csv.writer(write_file)
-   with open("data-clean.csv", mode='r', newline='', encoding='utf-8-sig') as read_file:
+   with open("data-clean-sample.csv", mode='r', newline='', encoding='utf-8-sig') as read_file:
       reader = csv.reader(read_file)
       text = list(reader)
       for i in range(start+1, len(text)):
