@@ -121,8 +121,16 @@ label_counts = Counter(es)
 total_samples = len(es)
 num_classes = len(label_counts)
 class_weights = []
+
+print("total_samples:",total_samples)
+print("num_classes:",num_classes)
+print("label_counts:",label_counts)
+
 for i in range(num_classes):
-    class_weights.append(total_samples / (num_classes * label_counts[i]))
+  print("label_counts["+str(i)+"]:",label_counts[i])
+  class_weights.append(total_samples / (num_classes * label_counts[i]))
+
+print("class_weights:",class_weights)
 
 input_dim = len(xs[0])
 output_dim = len(boards)

@@ -104,7 +104,7 @@ boards = {
 
 doc2vec_model = gensim.models.Doc2Vec.load("doc2vec_model.bin")
 
-with open("data-clean-words-sample.csv", mode='r', newline='', encoding='utf-8-sig') as read_file:
+with open("data-clean-words.csv", mode='r', newline='', encoding='utf-8-sig') as read_file:
   reader = csv.reader(read_file)
   text = list(reader)
   for i in range(0, len(text)):
@@ -140,7 +140,7 @@ optimizer = torch.optim.SGD(model.parameters(), lr=0.001)
 correct_rate, correct_rate_top2, all_preds, all_labels = test(test_loader, model, loss_fn)
 print("First Match", correct_rate*100, "%")
 print("Second Match", correct_rate_top2*100, "%")
-# print(classification_report(all_labels, all_preds, digits=4))
+print(classification_report(all_labels, all_preds, digits=4))
 
 print("------ Start Training ------")
 
@@ -148,10 +148,18 @@ epochs = 50
 for t in range(epochs):
   print(f"Epoch {t+1}\n------------")
   train(train_loader, model, loss_fn, optimizer)
+
+  print("[Train Set]")
+  train_acc, train_top2, train_preds, train_labels = test(train_loader, model, loss_fn)
+  print("First Match", train_acc*100, "%")
+  print("Second Match", train_top2*100, "%")
+  print(classification_report(train_labels, train_preds, digits=4))
+
+  print("[Test Set]")
   correct_rate, correct_rate_top2, all_preds, all_labels = test(test_loader, model, loss_fn)
   print("First Match", correct_rate*100, "%")
   print("Second Match", correct_rate_top2*100, "%")
-  # print(classification_report(all_labels, all_preds, digits=4))
+  print(classification_report(all_labels, all_preds, digits=4))
 
 
 
