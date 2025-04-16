@@ -97,7 +97,7 @@ num_labels = len(boards)
 
 doc2vec_model = gensim.models.Doc2Vec.load("doc2vec_model.bin")
 
-with open("data-clean-words-sample.csv", mode='r', newline='', encoding='utf-8-sig') as read_file:
+with open("data-clean-words.csv", mode='r', newline='', encoding='utf-8-sig') as read_file:
   reader = csv.reader(read_file)
   text = list(reader)
   for i in range(0, len(text)):
