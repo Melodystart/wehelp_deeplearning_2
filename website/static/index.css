@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  font-family: Arial;
 }
 
 nav {
@@ -11,11 +12,29 @@ nav {
   justify-content: center;
 }
 
-.container .form {
+.prediction-container,
+.form,
+.loading,
+.result-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.result-container,
+.feeback-container {
+  display: none;
+}
+
+.loading {
+  margin: 20px 0;
+  display: none;
+  font-size: 14px;
+}
+
+.choose {
+  font-size: 14px;
 }
 
 input {
@@ -33,7 +52,7 @@ input {
   border: 1px solid grey;
 }
 
-#button {
+#submit {
   background-color: #0047aa;
   height: 30px;
   width: 80px;
@@ -42,11 +61,35 @@ input {
   color: white;
 }
 
-#button:hover {
+#submit:hover {
   background-color: #188fff;
   cursor: pointer;
 }
 
 input:focus {
   outline: 1px solid grey;
+}
+
+.label {
+  border: 1px solid #0047aa;
+  background-color: white;
+  height: 30px;
+  width: 95px;
+  border-radius: 2px;
+  color: #0047aa;
+  margin: 0 3px;
+}
+
+.label:hover {
+  background-color: #0047aa;
+  color: white;
+  cursor: pointer;
+}
+
+.labels {
+  margin: 20px 0;
+}
+
+.thank {
+  margin: 0;
 }

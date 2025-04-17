@@ -20,15 +20,15 @@ class NeuralNetwork(nn.Module):
       return logits
 
 boards = {
-  'baseball':0, 
-  'boy-girl':1, 
-  'c_chat':2, 
-  'hatepolitics':3, 
-  'lifeismoney':4, 
-  'military':5,
-  'pc_shopping':6, 
-  'stock':7, 
-  'tech_job':8
+  'Baseball':0, 
+  'Boy-Girl':1, 
+  'C_Chat':2, 
+  'HatePolitics':3, 
+  'Lifeismoney':4, 
+  'Military':5,
+  'PC_Shopping':6, 
+  'Stock':7, 
+  'Tech_Job':8
 }
 
 def prediction(title):
@@ -60,7 +60,6 @@ def prediction(title):
 
   input_dim = doc2vec_model.vector_size
   output_dim = len(boards)
-
 
   model = NeuralNetwork(input_dim, output_dim).to(device)
   model.load_state_dict(torch.load("model_state_dict.pth"))
