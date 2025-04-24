@@ -16,9 +16,12 @@ if os.path.exists("user-labeled-words-sample.csv"):
       token_text = list(reader)
       start = len(token_text)
 
+base_dir = os.path.dirname(os.path.abspath(__file__))
+file_path = os.path.join(base_dir, '../website/user-labeled-titles-sample.csv')
+
 with open('user-labeled-words-sample.csv', mode='a', newline='', encoding='utf-8-sig') as write_file:
    writer = csv.writer(write_file)
-   with open("../website/user-labeled-titles-sample.csv", mode='r', newline='', encoding='utf-8-sig') as read_file:
+   with open(file_path, mode='r', newline='', encoding='utf-8-sig') as read_file:
       reader = csv.reader(read_file)
       text = list(reader)
 
