@@ -5,8 +5,9 @@ from datetime import datetime
 with DAG(
     dag_id='daily_model_update_pipeline',
     start_date=datetime(2024, 1, 1),
-    # schedule_interval='30 12 * * *',
-    schedule_interval='*/10 * * * *',
+    # schedule='30 12 * * *',
+    schedule='*/5 * * * *',
+    catchup=False,
 ) as dag:
 
   tokenize = BashOperator(
