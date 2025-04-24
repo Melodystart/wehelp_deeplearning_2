@@ -12,7 +12,7 @@ with DAG(
 
   tokenize = BashOperator(
       task_id='run_tokenize',
-      bash_command='source /home/ubuntu/torch-env/bin/activate && python /home/ubuntu/wehelp_deeplearning_2/train/tokenize.py',
+      bash_command='source /home/ubuntu/torch-env/bin/activate && python /home/ubuntu/wehelp_deeplearning_2/train/tokenizer.py',
   )
 
   embedding = BashOperator(
