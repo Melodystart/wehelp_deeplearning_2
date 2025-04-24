@@ -1,7 +1,6 @@
 import torch
 from torch import nn
 import gensim
-from ckip_transformers.nlp import CkipWordSegmenter, CkipPosTagger, CkipNerChunker
 
 class NeuralNetwork(nn.Module):
   def __init__(self, input_dim, output_dim):
@@ -31,13 +30,10 @@ boards = {
   'Tech_Job':8
 }
 
-def prediction(title):
+def prediction(title, ws_driver, pos_driver):
 
   # tokenizer
   text_tokens = []
-
-  ws_driver  = CkipWordSegmenter(model="bert-base")
-  pos_driver = CkipPosTagger(model="bert-base")
 
   filter_pos = ["Caa", "Cab", "Cba", "Cbb", "P", "DE", "FW", "COLONCATEGORY","COMMACATEGORY", "DASHCATEGORY", "ETCCATEGORY", "EXCLANATIONCATEGORY", "PARENTHESISCATEGORY", "PAUSECATEGORY", "PERIODCATEGORY", "QUESTIONCATEGORY", "SEMICOLONCATEGORY", "SPCHANGECATEGORY", "PARENTHESISCATEGORY", "WHITESPACE", "EXCLAMATIONCATEGORY"]
 
