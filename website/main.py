@@ -22,8 +22,22 @@ class Item(BaseModel):
     title: str
     label: str
 
-ws_driver  = CkipWordSegmenter(model="bert-base")
-pos_driver = CkipPosTagger(model="bert-base")
+# ws_driver  = CkipWordSegmenter(model="bert-base")
+# pos_driver = CkipPosTagger(model="bert-base")
+ws_driver = None
+pos_driver = None
+
+@app.on_event("startup")
+async def startup_event():
+    global ws_driver, pos_driver
+    ws_driver = CkipWordSegmenter(model="bert-base")
+    pos_driver = CkipPosTagger(model="bert-base")
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    global ws_driver, pos_driver
+    ws_driver = None
+    pos_driver = None
 
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):

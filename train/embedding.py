@@ -2,6 +2,7 @@ import logging
 import csv
 import gensim
 import collections
+import os
 
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
@@ -21,7 +22,12 @@ def read_corpus(csv_file, tokens_only=False):
               # For training data, add tags
               yield gensim.models.doc2vec.TaggedDocument(tokens, [text[i][0]])
 
-train_corpus = list(read_corpus("data-clean-words-sample.csv")) + list(read_corpus("user-labeled-words-sample.csv"))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+csv_1 = os.path.join(BASE_DIR, "data-clean-words-sample.csv")
+csv_2 = os.path.join(BASE_DIR, "user-labeled-words-sample.csv")
+
+train_corpus = list(read_corpus(csv_1)) + list(read_corpus(csv_2))
+
 # test_corpus = list(load_corpus_from_csv("test_tokens.csv", tokens_only=True))
 model = gensim.models.doc2vec.Doc2Vec(vector_size=50,  window=5, min_count=2, epochs=100,  dm=0, dbow_words=1, workers=4)
 model.build_vocab(train_corpus)

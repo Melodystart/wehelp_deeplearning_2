@@ -6,6 +6,7 @@ import csv
 import gensim
 import numpy as np
 from sklearn.metrics import classification_report
+import os
 
 class MyData(Dataset):
   def __init__(self, data, label):
@@ -115,10 +116,19 @@ boards = {
   'tech_job':8
 }
 
-doc2vec_model = gensim.models.Doc2Vec.load("doc2vec_model_sample.bin")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-read_and_append_csv("data-clean-words-sample.csv")
-read_and_append_csv("user-labeled-words-sample.csv")
+doc2vec_model_path = os.path.join(BASE_DIR, "doc2vec_model_sample.bin")
+doc2vec_model = gensim.models.Doc2Vec.load(doc2vec_model_path)
+# doc2vec_model = gensim.models.Doc2Vec.load("/home/ubuntu/wehelp_deeplearning_2/train/doc2vec_model.bin")
+# filepath1 = "/home/ubuntu/wehelp_deeplearning_2/train/data-clean-words-sample.csv"
+# filepath2 = "/home/ubuntu/wehelp_deeplearning_2/train/user-labeled-words-sample.csv"
+
+filepath1 = os.path.join(BASE_DIR, "data-clean-words-sample.csv")
+filepath2 = os.path.join(BASE_DIR, "user-labeled-words-sample.csv")
+
+read_and_append_csv(filepath1)
+read_and_append_csv(filepath2)
 
 from collections import Counter
 print("Label 分布統計：")
@@ -144,10 +154,10 @@ optimizer = torch.optim.SGD(model.parameters(), lr=0.001)
 correct_rate, correct_rate_top2, all_preds, all_labels = test(test_loader, model, loss_fn)
 print("First Match", correct_rate*100, "%")
 print("Second Match", correct_rate_top2*100, "%")
-print(classification_report(all_labels, all_preds, digits=4))
+# print(classification_report(all_labels, all_preds, digits=4))
 
 print("------ Start Training ------")
-
+new_correct_rate = 0
 epochs = 50
 for t in range(epochs):
   print(f"Epoch {t+1}\n------------")
@@ -157,15 +167,35 @@ for t in range(epochs):
   train_acc, train_top2, train_preds, train_labels = test(train_loader, model, loss_fn)
   print("First Match", train_acc*100, "%")
   print("Second Match", train_top2*100, "%")
-  print(classification_report(train_labels, train_preds, digits=4))
+  # print(classification_report(train_labels, train_preds, digits=4))
 
   print("[Test Set]")
   correct_rate, correct_rate_top2, all_preds, all_labels = test(test_loader, model, loss_fn)
   print("First Match", correct_rate*100, "%")
   print("Second Match", correct_rate_top2*100, "%")
-  print(classification_report(all_labels, all_preds, digits=4))
+  # print(classification_report(all_labels, all_preds, digits=4))
 
-torch.save(model.state_dict(), 'model_state_dict_sample.pth')
+new_model_dict = model.state_dict()
+new_correct_rate = correct_rate
+
+print("------ Test Set with Old Model ------")
+old_model_path = os.path.join(BASE_DIR, '../website/model_state_dict_sample.pth')
+old_model = NeuralNetwork(input_dim, output_dim).to(device)
+old_model.load_state_dict(torch.load(old_model_path))
+old_correct_rate, old_correct_rate_top2, old_all_preds, old_all_labels = test(test_loader, old_model, loss_fn)
+print("First Match", old_correct_rate*100, "%")
+print("Second Match", old_correct_rate_top2*100, "%")
+
+print("------ Evaluation Result ------")
+print("New Correct Rate", new_correct_rate*100, "%")
+print("Old Correct Rate", old_correct_rate*100, "%")
+if new_correct_rate > old_correct_rate:
+    torch.save(new_model_dict, old_model_path)
+    old_doc2vec_model_path = os.path.join(BASE_DIR, '../website/doc2vec_model_sample.bin')
+    doc2vec_model.save(old_doc2vec_model_path)
+    print("New Model deployed.")
+else:
+    print("New Model did not outperform. No deployment.")   
 
 
 

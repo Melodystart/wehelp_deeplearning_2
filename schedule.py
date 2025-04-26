@@ -6,7 +6,7 @@ with DAG(
     dag_id='daily_model_update_pipeline',
     start_date=datetime(2024, 1, 1),
     # schedule='30 12 * * *',
-    schedule='*/5 * * * *',
+    schedule='*/59 * * * *',
     catchup=False,
 ) as dag:
 

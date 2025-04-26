@@ -48,7 +48,7 @@ def prediction(title, ws_driver, pos_driver):
 
   # classification
   device = torch.accelerator.current_accelerator().type if torch.cuda.is_available() else "cpu"
-  doc2vec_model = gensim.models.Doc2Vec.load("doc2vec_model_4.bin")
+  doc2vec_model = gensim.models.Doc2Vec.load("doc2vec_model_sample.bin")
   inferred_vector = doc2vec_model.infer_vector(text_tokens)
   input_tensor = torch.from_numpy(inferred_vector).float().unsqueeze(0).to(device)
 
@@ -58,7 +58,7 @@ def prediction(title, ws_driver, pos_driver):
   output_dim = len(boards)
 
   model = NeuralNetwork(input_dim, output_dim).to(device)
-  model.load_state_dict(torch.load("model_state_dict.pth"))
+  model.load_state_dict(torch.load("model_state_dict_sample.pth"))
   model.eval()
 
   with torch.no_grad():
