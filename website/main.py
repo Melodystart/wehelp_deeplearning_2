@@ -6,6 +6,7 @@ from pydantic import BaseModel
 from predict import prediction
 import csv
 from ckip_transformers.nlp import CkipWordSegmenter, CkipPosTagger, CkipNerChunker
+import os
 
 def save_to_csv(path, data):
     with open(path, mode='a', newline='', encoding='utf-8-sig') as file:
@@ -27,6 +28,10 @@ class Item(BaseModel):
 ws_driver = None
 pos_driver = None
 
+tokens = []
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+file_path = os.path.join(BASE_DIR, "../train/user-labeled-words-sample.csv")
+
 @app.on_event("startup")
 async def startup_event():
     global ws_driver, pos_driver
@@ -47,9 +52,13 @@ async def index(request: Request):
 
 @app.get("/api/model/prediction/")
 async def get_prediction(title: str):
-    return prediction(title, ws_driver, pos_driver)
+    sorted_result, text_tokens = prediction(title, ws_driver, pos_driver)
+    global tokens
+    tokens= text_tokens
+    return sorted_result
 
 @app.post("/api/model/feedback/")
 async def send_feedback(item: Item):
-    save_to_csv("user-labeled-titles-sample.csv", [item.label, item.title])
+    tokens.insert(0, item.label)
+    save_to_csv(file_path, tokens)
     return {"ok": True}

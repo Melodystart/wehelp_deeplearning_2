@@ -69,4 +69,4 @@ def prediction(title, ws_driver, pos_driver):
   for i, prob in enumerate(prob[0]):
     result[index_to_board[i]] = round(prob.item(), 4)
   sorted_result = dict(sorted(result.items(), key=lambda item: item[1], reverse=True))
-  return sorted_result
+  return sorted_result, text_tokens
