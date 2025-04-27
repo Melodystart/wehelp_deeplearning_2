@@ -30,7 +30,7 @@ pos_driver = None
 
 tokens = []
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-file_path = os.path.join(BASE_DIR, "../train/user-labeled-words-sample.csv")
+file_path = os.path.join(BASE_DIR, "../train/user-labeled-words.csv")
 
 @app.on_event("startup")
 async def startup_event():
