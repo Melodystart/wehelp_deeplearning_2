@@ -118,14 +118,11 @@ boards = {
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-doc2vec_model_path = os.path.join(BASE_DIR, "doc2vec_model_sample.bin")
+doc2vec_model_path = os.path.join(BASE_DIR, "doc2vec_model_4.bin")
 doc2vec_model = gensim.models.Doc2Vec.load(doc2vec_model_path)
-# doc2vec_model = gensim.models.Doc2Vec.load("/home/ubuntu/wehelp_deeplearning_2/train/doc2vec_model.bin")
-# filepath1 = "/home/ubuntu/wehelp_deeplearning_2/train/data-clean-words-sample.csv"
-# filepath2 = "/home/ubuntu/wehelp_deeplearning_2/train/user-labeled-words-sample.csv"
 
-filepath1 = os.path.join(BASE_DIR, "data-clean-words-sample.csv")
-filepath2 = os.path.join(BASE_DIR, "user-labeled-words-sample.csv")
+filepath1 = os.path.join(BASE_DIR, "data-clean-words.csv")
+filepath2 = os.path.join(BASE_DIR, "user-labeled-words.csv")
 
 read_and_append_csv(filepath1)
 read_and_append_csv(filepath2)
@@ -179,7 +176,7 @@ new_model_dict = model.state_dict()
 new_correct_rate = correct_rate
 
 print("------ Test Set with Old Model ------")
-old_model_path = os.path.join(BASE_DIR, '../website/model_state_dict_sample.pth')
+old_model_path = os.path.join(BASE_DIR, '../website/model_state_dict.pth')
 old_model = NeuralNetwork(input_dim, output_dim).to(device)
 old_model.load_state_dict(torch.load(old_model_path))
 old_correct_rate, old_correct_rate_top2, old_all_preds, old_all_labels = test(test_loader, old_model, loss_fn)
@@ -191,7 +188,7 @@ print("New Correct Rate", new_correct_rate*100, "%")
 print("Old Correct Rate", old_correct_rate*100, "%")
 if new_correct_rate > old_correct_rate:
     torch.save(new_model_dict, old_model_path)
-    old_doc2vec_model_path = os.path.join(BASE_DIR, '../website/doc2vec_model_sample.bin')
+    old_doc2vec_model_path = os.path.join(BASE_DIR, '../website/doc2vec_model_4.bin')
     doc2vec_model.save(old_doc2vec_model_path)
     print("New Model deployed.")
 else:
